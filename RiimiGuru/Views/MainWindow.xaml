@@ -1,0 +1,187 @@
+﻿<!-- MainWindow.xaml -->
+<Window x:Class="RiimiGuru.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RiimiGuru"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="520" Width="1200">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <!-- TabControl with dark mode -->
+    <TabControl>
+        <TabControl.Resources>
+            <Style TargetType="{x:Type Grid}">
+                <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
+            </Style>
+            <Style TargetType="{x:Type TabPanel}">
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+            </Style>
+        </TabControl.Resources>
+
+        <!-- First tab for main functionality -->
+
+        <TabItem Header="Main">
+            <Grid x:Name="MainGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="ExpanderColumnLeft" Width="0"/>
+                    <ColumnDefinition x:Name="Column1" Width="*"/>
+                    <ColumnDefinition x:Name="Column2" Width="15*"/>
+                    <ColumnDefinition x:Name="Column3" Width="15*"/>
+                    <ColumnDefinition x:Name="Column4" Width="15*"/>
+                    <ColumnDefinition x:Name="Column5" Width="*"/>
+                    <ColumnDefinition x:Name="ExpanderColumnRight" Width="0"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="9*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Button x:Name="updateButton" Grid.Column="3" Grid.Row="2" Content="naa" Margin="10" Click="updateButton_Click" Visibility="Hidden"/>
+
+                <!-- Expander for Log -->
+                <Expander Name="LogExpanderLeft" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" ExpandDirection="Left" IsExpanded="False" Width="Auto" Expanded="LogExpanderLeft_Expanded" Collapsed="LogExpanderLeft_Collapsed"/>
+                <Expander Name="LogExpanderRight" Grid.Row="1" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Left" ExpandDirection="Right" IsExpanded="False" Width="Auto" Expanded="LogExpanderRight_Expanded" Collapsed="LogExpanderRight_Collapsed"/>
+
+                <Grid Grid.Column="6" Grid.Row="1">
+                    <TextBox x:Name="LogTextBox" 
+                             Margin="10px, 0px,10px, 0px" 
+                             TextWrapping="Wrap" 
+                             VerticalAlignment="Stretch" 
+                             HorizontalAlignment="Stretch"
+                             FontSize="12" 
+                             Foreground="{StaticResource TextBrush}" 
+                             Background="{StaticResource BackgroundBrush}" 
+                             BorderBrush="{StaticResource BorderBrush}" 
+                             BorderThickness="1" 
+                             AcceptsReturn="True"/>
+                </Grid>
+
+                <Grid Grid.Column="0" Grid.Row="1" Margin="10px, 0px, 10px, 0px">
+                    <TreeView x:Name="riimiRyhmaPuu">
+                        <TreeViewItem Header="Root Item 1">
+                            <TreeViewItem Header="Child Item 1"/>
+                            <TreeViewItem Header="Child Item 2"/>
+                        </TreeViewItem>
+                        <TreeViewItem Header="Root Item 2">
+                            <TreeViewItem Header="Child Item 3"/>
+                        </TreeViewItem>
+                    </TreeView>
+                </Grid>
+
+                <Label Content="Analyysiä/tilastoja" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Column="4" Grid.Row="0"  
+                       Foreground="{StaticResource TextBrush}"
+                       Background="{StaticResource BackgroundBrush}"/>
+
+                <Border x:Name="foundSynonyms" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Grid.Column="4" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                        Margin="20px, 0px, 20px, 0px">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <WrapPanel x:Name="synonymsPanel" />
+                    </ScrollViewer>
+                </Border>
+
+                <Label Content="Analyysi" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Column="2" Grid.Row="0"
+                       Foreground="{StaticResource TextBrush}"
+                       Background="{StaticResource BackgroundBrush}"/>
+
+                <!-- CheckBox for highlighting options -->
+                <StackPanel Grid.Column="2" Grid.Row="2" Margin="20px,5px,20px,5px">
+                    <CheckBox x:Name="useAllSyllablesOption"
+                              Content="Merkkaa riimiryhmät"
+                              Foreground="{StaticResource TextBrush}"
+                              Background="{StaticResource BackgroundBrush}" IsChecked="False"/>
+
+                    <CheckBox x:Name="backgroundColorOption"
+                              Content="Värjää tausta"
+                              Foreground="{StaticResource TextBrush}"
+                              Background="{StaticResource BackgroundBrush}"/>
+                </StackPanel>
+
+                <Label Grid.Column="3" Grid.Row="0" Content="Lyriikat" VerticalAlignment="Bottom"
+                       Foreground="{StaticResource TextBrush}"
+                       Background="{StaticResource BackgroundBrush}"
+                       HorizontalAlignment="Center"/>
+
+                <RichTextBox x:Name="writing"
+                             Margin="20px, 0px, 20px, 0"
+                             
+                             VerticalAlignment="Stretch" 
+                             HorizontalAlignment="Stretch"
+                             VerticalScrollBarVisibility="Auto"
+                             HorizontalScrollBarVisibility="Auto"
+                             Background="{StaticResource BackgroundBrush}"
+                             Foreground="{StaticResource TextBrush}" 
+                             Grid.Column="3" Grid.Row="1">
+                    <RichTextBox.Resources>
+                        <Style TargetType="Paragraph">
+                            <Setter Property="FontFamily" Value="Consolas"/>
+                            <Setter Property="FontSize" Value="14"/>
+                            <Setter Property="LineHeight" Value="18"/>
+                            <Setter Property="Margin" Value="0,0,0,5"/>
+                            <Setter Property="TextAlignment" Value="Center"/>
+                            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+                        </Style>
+                    </RichTextBox.Resources>
+                </RichTextBox>
+
+                <RichTextBox x:Name="writing_Copy"
+                             Margin="20px, 0px, 20px, 0px"
+                             VerticalAlignment="Stretch" 
+                             HorizontalAlignment="Stretch"
+                             VerticalScrollBarVisibility="Auto"
+                             HorizontalScrollBarVisibility="Auto" 
+                             IsReadOnly="True"
+                             Background="{StaticResource BackgroundBrush}"
+                             Foreground="{StaticResource TextBrush}" 
+                             Grid.Column="2" Grid.Row="1">
+                    <RichTextBox.Resources>
+                        <Style TargetType="Paragraph">
+                            <Setter Property="FontFamily" Value="Consolas"/>
+                            <Setter Property="FontSize" Value="14"/>
+                            <Setter Property="LineHeight" Value="18"/>
+                            <Setter Property="TextAlignment" Value="Center"/>
+                            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+                        </Style>
+                    </RichTextBox.Resources>
+                </RichTextBox>
+            </Grid>
+        </TabItem>
+
+        <!-- Second tab for debugging -->
+        <TabItem Header="Debug">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="530*"/>
+                    <ColumnDefinition Width="14*"/>
+                    <ColumnDefinition Width="12*"/>
+                    <ColumnDefinition Width="613*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="LogTextBox1" 
+                         HorizontalAlignment="Left" 
+                         Margin="10,10,0,0" 
+                         TextWrapping="Wrap" 
+                         Text="TextBox" 
+                         VerticalAlignment="Top" 
+                         Width="1170" 
+                         Height="420" 
+                         FontSize="12" 
+                         Foreground="{StaticResource TextBrush}" 
+                         Background="{StaticResource BackgroundBrush}" 
+                         BorderBrush="{StaticResource BorderBrush}" 
+                         BorderThickness="1" 
+                         AcceptsReturn="True" Grid.ColumnSpan="5"/>
+            </Grid>
+        </TabItem>
+    </TabControl>
+</Window>
